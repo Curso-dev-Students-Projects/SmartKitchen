@@ -44,8 +44,4 @@ function Home() {
   );
 }
 
-function teste2() {
-  console.log("Hello world!");
-}
-
 export default Home;
