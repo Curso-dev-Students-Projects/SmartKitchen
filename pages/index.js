@@ -2,7 +2,17 @@ function Home() {
   return (
     <>
       <div className="container">
-        <h1>Amo você. Se você também me ama, da uma risadinha! 😎</h1>
+        <h1>
+          <code>
+            A ideia é que o <b>nationnews.com.br</b> se torne um espaço único,
+            onde o conhecimento sobre países é compartilhado de forma
+            colaborativa e democrática, contribuindo para a informação de
+            qualidade e o debate construtivo. Os usuários que frequentarem a
+            plataforma serão, em sua maioria, pessoas curiosas, engajadas e
+            dispostas a participar ativamente de discussões que valorizam a
+            diversidade e o aprofundamento cultural e político.
+          </code>
+        </h1>
       </div>
       <style jsx>{`
         * {
@@ -15,7 +25,8 @@ function Home() {
         body {
           height: 100%;
           width: 100%;
-          overflow: hidden; /* Impede rolagem */
+          overflow: hidden;
+          font-family: "Helvetica", sans-serif;
         }
 
         .container {
@@ -38,6 +49,14 @@ function Home() {
           text-align: center;
           max-width: 90%; /* Limita a largura para evitar que fique muito grande */
           word-wrap: break-word; /* Garante que o texto quebre corretamente */
+        }
+
+        code {
+          color: lightblue;
+        }
+
+        b {
+          color: blue;
         }
       `}</style>
     </>
