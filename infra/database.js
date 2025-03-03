@@ -1,3 +1,4 @@
+/* database.js é uma abstração da nossa infraestrutura. */
 import { Client } from "pg";
 
 async function query(queryObject) {
