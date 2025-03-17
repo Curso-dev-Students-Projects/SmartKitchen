@@ -1,4 +1,4 @@
-/* database.js é uma abstração da nossa infraestrutura. */
+//database.js is an abstraction of the infrastructure.
 import { Client } from "pg";
 
 async function query(queryObject) {
@@ -9,13 +9,14 @@ async function query(queryObject) {
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
   });
-  await client.connect();
 
   try {
+    await client.connect();
     const result = await client.query(queryObject);
     return result.rows;
   } catch (error) {
     console.error(error);
+    throw error;
   } finally {
     await client.end();
   }
