@@ -1,3 +1,3 @@
-# clone-tabnews
+# nationnews
 
-Implementação do https://www.tabnews.com.br para o https://curso.dev do Filipe Deschamps.
+Implementação do https://www.tabnews.com.br para o https://nationnews.com.br
