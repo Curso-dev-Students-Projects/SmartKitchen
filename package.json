@@ -1,32 +1,33 @@
 {
-  "name": "clone-tabnews",
-  "version": "1.0.0",
-  "description": "Implementação do https://www.tabnews.com.br para o https://curso.dev do Filipe Deschamps.",
-  "main": "index.js",
-  "scripts": {
-    "dev": "npm run services:up && next dev",
-    "services:up": "docker compose -f infra/compose.yaml up -d",
-    "services:stop": "docker compose -f infra/compose.yaml stop",
-    "services:down": "docker compose -f infra/compose.yaml down",
-    "lint:check": "prettier --check .",
-    "lint:fix": "prettier --write .",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "migration:create": "node-pg-migrate -m infra/migrations create",
-    "migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development up"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "dotenv": "^16.4.4",
-    "next": "^13.1.6",
-    "node-pg-migrate": "^6.2.2",
-    "pg": "^8.11.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "jest": "^29.6.2",
-    "prettier": "^3.4.2"
-  }
+	"name": "clone-tabnews",
+	"version": "1.0.0",
+	"description": "Implementação do https://www.tabnews.com.br para o https://curso.dev do Filipe Deschamps.",
+	"main": "index.js",
+	"scripts": {
+		"dev": "npm run services:up && next dev",
+		"services:up": "docker compose -f infra/compose.yaml up -d",
+		"services:stop": "docker compose -f infra/compose.yaml stop",
+		"services:down": "docker compose -f infra/compose.yaml down",
+		"lint:check": "prettier --check .",
+		"lint:fix": "prettier --write .",
+		"test": "jest --runInBand",
+		"test:watch": "jest --watchAll --runInBand",
+		"migration:create": "node-pg-migrate -m infra/migrations create",
+		"migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development up"
+	},
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"dotenv": "^16.4.4",
+		"dotenv-expand": "^11.0.6",
+		"next": "^13.1.6",
+		"node-pg-migrate": "^6.2.2",
+		"pg": "^8.11.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"jest": "^29.6.2",
+		"prettier": "^3.4.2"
+	}
 }
