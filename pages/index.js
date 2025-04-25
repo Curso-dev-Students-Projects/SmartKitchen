@@ -4,9 +4,12 @@ function Home() {
 			<div className="container">
 				<h1>
 					<code>
-						A ideia é que o <b>nationnews.com.br</b> se torne um espaço único, onde o conhecimento sobre países é compartilhado de forma colaborativa e democrática, contribuindo para a
-						informação de qualidade e o debate construtivo. Os usuários que frequentarem a plataforma serão, em sua maioria, pessoas curiosas, engajadas e dispostas a participar ativamente
-						de discussões que valorizam a diversidade e o aprofundamento cultural e político.
+						A ideia é que o <b>nationnews.com.br</b> se torne um espaço único, onde o conhecimento
+						sobre países é compartilhado de forma colaborativa e democrática, contribuindo para a
+						informação de qualidade e o debate construtivo. Os usuários que frequentarem a
+						plataforma serão, em sua maioria, pessoas curiosas, engajadas e dispostas a participar
+						ativamente de discussões que valorizam a diversidade e o aprofundamento cultural e
+						político.
 					</code>
 				</h1>
 			</div>

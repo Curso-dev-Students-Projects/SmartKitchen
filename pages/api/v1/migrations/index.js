@@ -1,7 +1,6 @@
 import migrationRunner from "node-pg-migrate";
 import database from "infra/database.js";
-import {join} from "node:path";
-import {Console} from "node:console";
+import { join } from "node:path";
 
 export default async function migrations(request, response) {
 	const allowedHosts = ["GET", "POST"];
@@ -32,7 +31,10 @@ export default async function migrations(request, response) {
 		}
 
 		if (request.method === "POST") {
-			const migratedMigrations = await migrationRunner({...defaultMigrationOptions, dryRun: false});
+			const migratedMigrations = await migrationRunner({
+				...defaultMigrationOptions,
+				dryRun: false,
+			});
 
 			if (migratedMigrations.length > 0) {
 				return response.status(201).json(migratedMigrations);
