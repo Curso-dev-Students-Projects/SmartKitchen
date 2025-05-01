@@ -1,4 +1,4 @@
-/* A função desse endpoint é devolver informações da saúde do sistema. */
+//A função desse endpoint é devolver informações da saúde do sistema.
 import database from "infra/database.js";
 
 async function status(request, response) {
