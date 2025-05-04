@@ -1,4 +1,4 @@
-//Este arquivo deve conter os testes enquanto o servidor web e o DB não estiverem funcionando.
+//This file should contain the tests while the server and DB are not working.
 import retry from "async-retry";
 
 async function waitForAllServices() {

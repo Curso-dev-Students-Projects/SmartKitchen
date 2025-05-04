@@ -3,7 +3,7 @@ import database from "infra/database";
 
 beforeAll(async () => {
 	await orchestrator.waitForAllServices();
-	await database.query("DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;"); //Clear DB.
+	await database.query("DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;");
 });
 
 describe("GET api/v1/migrations", () => {

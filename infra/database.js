@@ -1,4 +1,4 @@
-//database.js é uma abstração da infraestrutura.
+//database.js is an abstraction of the infrastructure.
 import { Client } from "pg";
 
 async function query(queryObject) {
