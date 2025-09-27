@@ -1,0 +1,11 @@
+{
+  "name": "smartkitchen",
+  "version": "1.0.0",
+  "description": "O SmartKitchen é uma aplicação de gerenciamento de estoque residencial. Com ele, você controla o que entra e sai da sua despensa, recebe alertas sobre produtos próximos do vencimento e até sugestões de receitas usando os ingredientes disponíveis. Tudo isso de forma simples, rápida e acessível de qualquer lugar.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
