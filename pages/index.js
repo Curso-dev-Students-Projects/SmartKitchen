@@ -4,12 +4,9 @@ function Home() {
 			<div className="container">
 				<h1>
 					<code>
-						A ideia é que o <b>nationnews.com.br</b> se torne um espaço único, onde o conhecimento
-						sobre países é compartilhado de forma colaborativa e democrática, contribuindo para a
-						informação de qualidade e o debate construtivo. Os usuários que frequentarem a
-						plataforma serão, em sua maioria, pessoas curiosas, engajadas e dispostas a participar
-						ativamente de discussões que valorizam a diversidade e o aprofundamento cultural e
-						político.
+						O SmartKitchen será um sistema de gerenciamento de estoque residencial. Com ele,
+						pode-se controlar o que entra e sai da sua despensa, recebe alertas sobre produtos
+						próximos do vencimento e até sugestões de receitas usando os ingredientes disponíveis.
 					</code>
 				</h1>
 			</div>
