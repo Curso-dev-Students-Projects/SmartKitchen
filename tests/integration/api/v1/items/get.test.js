@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 describe("GET api/v1/items", () => {
 	describe("Anonymous user", () => {
-		test("Deve retornar uma lista vazia quando não houver itens", async () => {
+		test("Should return an empty list when there are no items", async () => {
 			const response = await fetch("http://localhost:3000/api/v1/items");
 			expect(response.status).toBe(200);
 
@@ -20,8 +20,8 @@ describe("GET api/v1/items", () => {
 			expect(responseBody.length).toBe(0);
 		});
 
-		test("Deve retornar todos os itens quando existirem", async () => {
-			// Insert test items
+		test("Should return all items when there are items", async () => {
+			// Inseindo itens de teste
 			await database.query({
 				text: `
 					INSERT INTO items (name, quantity, unit, expiration_date, category_id)
@@ -38,7 +38,7 @@ describe("GET api/v1/items", () => {
 			expect(Array.isArray(responseBody)).toBe(true);
 			expect(responseBody.length).toBe(2);
 
-			// Checando estrutura dos itens
+			// Checando a estrutura dos itens
 			responseBody.forEach((item) => {
 				expect(item).toHaveProperty("id");
 				expect(item).toHaveProperty("name");
@@ -51,12 +51,12 @@ describe("GET api/v1/items", () => {
 				expect(item).toHaveProperty("deleted_at");
 			});
 
-			// Checando se os itens específicos estão presentes
+			// Checando se os itens específicos estão presentes no response
 			const itemNames = responseBody.map((item) => item.name);
 			expect(itemNames).toContain("Leite Integral UHT");
 			expect(itemNames).toContain("Tomate Italiano");
 
-			// Checando valores específicos
+			// Checando valores específicos no response
 			const leiteItem = responseBody.find((item) => item.name === "Leite Integral UHT");
 			expect(leiteItem.quantity).toBe(6);
 			expect(leiteItem.unit).toBe("caixas");
@@ -70,7 +70,7 @@ describe("GET api/v1/items", () => {
 			expect(tomateItem.category_id).toBe(3);
 		});
 
-		test("Deve retornar 405 para métodos não suportados", async () => {
+		test("Should return 405 for unsupported methods", async () => {
 			const response = await fetch("http://localhost:3000/api/v1/items", {
 				method: "POST",
 				headers: {
