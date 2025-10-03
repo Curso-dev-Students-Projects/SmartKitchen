@@ -5,8 +5,8 @@ beforeAll(async () => {
 	await orchestrator.waitForAllServices();
 	await orchestrator.clearDatabase();
 	// Executa as migrations após limpar o banco de dados
-	const { execSync } = require('child_process');
-	execSync('npm run migrations:up', { stdio: 'inherit' });
+	const { execSync } = require("child_process");
+	execSync("npm run migrations:up", { stdio: "inherit" });
 }, 120000);
 
 describe("GET api/v1/items", () => {
@@ -39,7 +39,7 @@ describe("GET api/v1/items", () => {
 			expect(responseBody.length).toBe(2);
 
 			// Checando estrutura dos itens
-			responseBody.forEach(item => {
+			responseBody.forEach((item) => {
 				expect(item).toHaveProperty("id");
 				expect(item).toHaveProperty("name");
 				expect(item).toHaveProperty("quantity");
@@ -52,18 +52,18 @@ describe("GET api/v1/items", () => {
 			});
 
 			// Checando se os itens específicos estão presentes
-			const itemNames = responseBody.map(item => item.name);
+			const itemNames = responseBody.map((item) => item.name);
 			expect(itemNames).toContain("Leite Integral UHT");
 			expect(itemNames).toContain("Tomate Italiano");
 
 			// Checando valores específicos
-			const leiteItem = responseBody.find(item => item.name === "Leite Integral UHT");
+			const leiteItem = responseBody.find((item) => item.name === "Leite Integral UHT");
 			expect(leiteItem.quantity).toBe(6);
 			expect(leiteItem.unit).toBe("caixas");
 			expect(leiteItem.expiration_date).toMatch(/2025-10-15T\d{2}:00:00\.000Z/);
 			expect(leiteItem.category_id).toBe(1);
 
-			const tomateItem = responseBody.find(item => item.name === "Tomate Italiano");
+			const tomateItem = responseBody.find((item) => item.name === "Tomate Italiano");
 			expect(tomateItem.quantity).toBe(500);
 			expect(tomateItem.unit).toBe("g");
 			expect(tomateItem.expiration_date).toMatch(/2025-09-30T\d{2}:00:00\.000Z/);

@@ -9,43 +9,43 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-	pgm.createTable('items', {
+	pgm.createTable("items", {
 		id: {
-			type: 'serial',
+			type: "serial",
 			primaryKey: true,
 		},
 		name: {
-			type: 'varchar(255)',
+			type: "varchar(255)",
 			notNull: true,
 		},
 		quantity: {
-			type: 'integer',
+			type: "integer",
 			notNull: true,
 		},
 		unit: {
-			type: 'varchar(50)',
+			type: "varchar(50)",
 			notNull: true,
 		},
 		expiration_date: {
-			type: 'timestamp',
+			type: "timestamp",
 			notNull: true,
 		},
 		category_id: {
-			type: 'integer',
+			type: "integer",
 			notNull: true,
 		},
 		created_at: {
-			type: 'timestamp',
+			type: "timestamp",
 			notNull: true,
-			default: pgm.func('current_timestamp'),
+			default: pgm.func("current_timestamp"),
 		},
 		updated_at: {
-			type: 'timestamp',
+			type: "timestamp",
 			notNull: true,
-			default: pgm.func('current_timestamp'),
+			default: pgm.func("current_timestamp"),
 		},
 		deleted_at: {
-			type: 'timestamp',
+			type: "timestamp",
 			notNull: false,
 		},
 	});
@@ -57,5 +57,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-	pgm.dropTable('items');
+	pgm.dropTable("items");
 };
