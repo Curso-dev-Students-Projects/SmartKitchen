@@ -1,5 +1,11 @@
 {
+<<<<<<< HEAD
 	"compilerOptions": {
 		"baseUrl": "."
 	}
+=======
+    "compilerOptions": {
+        "baseUrl": "."
+    }
+>>>>>>> origin
 }
