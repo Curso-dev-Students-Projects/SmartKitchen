@@ -1,4 +1,3 @@
-//This file should contain the tests while the server and DB are not working.
 import database from "infra/database";
 import retry from "async-retry";
 import migrator from "models/migrator.js";
