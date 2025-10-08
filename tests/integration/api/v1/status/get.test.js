@@ -4,10 +4,9 @@ beforeAll(async () => {
     await orchestrator.waitForAllServices();
 });
 
-describe("GET api/v1/status", () => {
+describe("GET /api/v1/status", () => {
     describe("Anonymous user", () => {
         test("Consulting current system status", async () => {
-            //Testar se o response é válido.
             const response = await fetch("http://localhost:3000/api/v1/status");
             expect(response.status).toBe(200);
 
