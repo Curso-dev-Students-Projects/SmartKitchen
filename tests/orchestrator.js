@@ -1,6 +1,6 @@
-//This file should contain the tests while the server and DB are not working.
 import database from "infra/database";
 import retry from "async-retry";
+import migrator from "models/migrator.js";
 
 async function waitForAllServices() {
     await waitForWebServer();
@@ -25,8 +25,13 @@ async function clearDatabase() {
     await database.query("DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;");
 }
 
+async function runPendingMigrations() {
+    await migrator.runPendingMigrations();
+}
+
 const orchestrator = {
     waitForAllServices,
     clearDatabase,
+    runPendingMigrations,
 };
 export default orchestrator;
