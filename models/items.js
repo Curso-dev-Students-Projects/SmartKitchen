@@ -1,4 +1,4 @@
-import database from "../infra/database"
+import database from "../infra/database";
 
 /**
  * Deleta um item, através do ID
@@ -8,9 +8,9 @@ import database from "../infra/database"
 export async function removeItemById(id) {
     const queryObj = {
         text: "DELETE FROM items WHERE id=$1",
-        values: [id]
-    }
+        values: [id],
+    };
 
-    const result = await database.query(queryObj)
+    const result = await database.query(queryObj);
     return result.rowCount > 0;
 }
