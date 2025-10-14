@@ -151,7 +151,8 @@ async function list() {
                     unit,
                     expiration_date,
                     category_id,
-                    created_at
+                    created_at,
+                    updated_at
                 FROM items
                 ORDER BY created_at DESC;
             `,
