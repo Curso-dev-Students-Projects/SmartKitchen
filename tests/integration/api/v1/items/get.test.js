@@ -110,8 +110,6 @@ describe("GET /api/v1/items", () => {
                 body: JSON.stringify(firstItemData),
             });
 
-            // Aguardar um pouco para garantir diferença de timestamp
-            await new Promise((resolve) => setTimeout(resolve, 100));
 
             // Criar segundo item
             const secondItemData = {
