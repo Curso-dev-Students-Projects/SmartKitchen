@@ -110,7 +110,6 @@ describe("GET /api/v1/items", () => {
                 body: JSON.stringify(firstItemData),
             });
 
-
             // Criar segundo item
             const secondItemData = {
                 name: "Segundo Item",
