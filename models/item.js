@@ -1,5 +1,5 @@
 import database from "infra/database.js";
-import { ValidationError } from "infra/errors.js";
+import { ValidationError, ServiceError } from "infra/errors.js";
 
 async function create(itemData) {
     const validatedItemData = validateItemData(itemData);
@@ -140,8 +140,36 @@ function validateItemData(data) {
     };
 }
 
+async function list() {
+    try {
+        const query = {
+            text: `
+                SELECT 
+                    id,
+                    name,
+                    quantity,
+                    unit,
+                    expiration_date,
+                    category_id,
+                    created_at
+                FROM items
+                ORDER BY created_at DESC;
+            `,
+        };
+
+        const result = await database.query(query);
+        return result.rows;
+    } catch (error) {
+        throw new ServiceError({
+            message: "Erro ao buscar lista de itens.",
+            cause: error,
+        });
+    }
+}
+
 const item = {
     create,
+    list,
 };
 
 export default item;
