@@ -9,5 +9,5 @@ router.delete(deleteHandler);
 
 async function deleteHandler(request, response) {
     await remove(request.query);
-    return response.status(204).end();
+    response.status(204).end();
 }
