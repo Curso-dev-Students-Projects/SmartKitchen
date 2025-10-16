@@ -6,7 +6,7 @@ import { NotFoundError, ValidationError } from "infra/errors";
  * @return {Promise<boolean>} true se deletou corretamente, false se não encontrou
  * @param requestQuery
  */
-export async function remove(requestQuery) {
+async function remove(requestQuery) {
     const validatedId = validateId(requestQuery.id);
 
     const query = {
@@ -47,3 +47,9 @@ function validateId(id) {
 
     return id;
 }
+
+const item = {
+    remove,
+};
+
+export default item;
