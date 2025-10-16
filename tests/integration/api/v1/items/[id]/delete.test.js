@@ -5,7 +5,7 @@ import crypto from "node:crypto";
 
 const BASE_URL = "http://localhost:3000";
 
-// pequena fábrica de item só pra estes testes
+// pequena fábrica de item só para estes testes
 async function createItem(attrs = {}) {
     const name = attrs.name ?? "Tmp";
     const quantity = attrs.quantity ?? 1;
@@ -41,10 +41,10 @@ describe("DELETE /api/v1/items/:id (hard delete)", () => {
     test("204 and record is removed from the database (hard delete)", async () => {
         const id = await createItem();
 
-        const res = await fetch(`${BASE_URL}/api/v1/items/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/v1/items/${id}`, {
             method: "DELETE",
         });
-        expect(res.status).toBe(204);
+        expect(response.status).toBe(204);
 
         const check = await database.query({
             text: "SELECT 1 FROM items WHERE id = $1",
@@ -69,9 +69,30 @@ describe("DELETE /api/v1/items/:id (hard delete)", () => {
 
     test("non-existent UUID: 404", async () => {
         const nonexistent = crypto.randomUUID();
-        const res = await fetch(`${BASE_URL}/api/v1/items/${nonexistent}`, {
+        const response = await fetch(
+            `${BASE_URL}/api/v1/items/${nonexistent}`,
+            {
+                method: "DELETE",
+            },
+        );
+        expect(response.status).toBe(404);
+    });
+
+    test("invalid id (non UUID type): 404", async () => {
+        const invalidUUID = `13`;
+        const response = await fetch(
+            `${BASE_URL}/api/v1/items/${invalidUUID}`,
+            {
+                method: "DELETE",
+            },
+        );
+        expect(response.status).toBe(400);
+    });
+
+    test("invalid URL: 404", async () => {
+        const response = await fetch(`${BASE_URL}/api/v1/items/`, {
             method: "DELETE",
         });
-        expect(res.status).toBe(404);
+        expect(response.status).toBe(404);
     });
 });
