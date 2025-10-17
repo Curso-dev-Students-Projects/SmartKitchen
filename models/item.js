@@ -160,13 +160,13 @@ async function remove(requestQuery) {
     return true;
 }
 
-function validateUUID(functionName, id) {
+function validateUUID(atributeName, id) {
     const uuidRegex =
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
     if (!uuidRegex.test(id)) {
         throw new ValidationError({
-            message: `"${functionName}" must be a valid UUID.`,
+            message: `"${atributeName}" must be a valid UUID.`,
             action: "Insira um UUID válido.",
         });
     }
