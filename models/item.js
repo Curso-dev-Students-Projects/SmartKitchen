@@ -1,5 +1,5 @@
-import database from "infra/database.js";
-import { ValidationError } from "infra/errors.js";
+import database from "infra/database";
+import { NotFoundError, ValidationError } from "infra/errors";
 
 async function create(itemData) {
     const validatedItemData = validateItemData(itemData);
@@ -122,13 +122,7 @@ function validateItemData(data) {
             });
         }
 
-        const uuidRegex =
-            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        if (!uuidRegex.test(data.category_id)) {
-            throw new ValidationError({
-                message: '"category_id" must be a valid UUID.',
-            });
-        }
+        validateUUID("category_id", data.category_id);
     }
 
     return {
@@ -140,8 +134,49 @@ function validateItemData(data) {
     };
 }
 
+/**
+ * Deleta um item, através do ID
+ * @return {Promise<boolean>} true se deletou corretamente, false se não encontrou
+ * @param requestQuery
+ */
+async function remove(requestQuery) {
+    const validatedId = validateUUID(":id", requestQuery.id);
+
+    const query = {
+        text: `DELETE
+               FROM items
+               WHERE id = $1`,
+        values: [validatedId],
+    };
+
+    const result = await database.query(query);
+
+    if (result.rowCount === 0) {
+        throw new NotFoundError({
+            message: `Item with id ${result.rowCount} not found`,
+        });
+    }
+
+    return true;
+}
+
+function validateUUID(functionName, id) {
+    const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    if (!uuidRegex.test(id)) {
+        throw new ValidationError({
+            message: `"${functionName}" must be a valid UUID.`,
+            action: "Insira um UUID válido.",
+        });
+    }
+
+    return id;
+}
+
 const item = {
     create,
+    remove,
 };
 
 export default item;
