@@ -5,13 +5,12 @@ import crypto from "node:crypto";
 
 const BASE_URL = "http://localhost:3000";
 
-// pequena fábrica de item só para estes testes
-async function createItem(attributes = {}) {
-    const name = attributes.name ?? "Tmp";
-    const quantity = attributes.quantity ?? 1;
-    const unit = attributes.unit ?? "Un";
-    const expiration = attributes.expiration_date ?? null;
-    const category = attributes.category_id ?? null;
+async function createItem(itemData = {}) {
+    const name = itemData.name ?? "Tmp";
+    const quantity = itemData.quantity ?? 1;
+    const unit = itemData.unit ?? "Un";
+    const expiration = itemData.expiration_date ?? null;
+    const category = itemData.category_id ?? null;
 
     const { rows } = await database.query({
         text: `
@@ -39,39 +38,45 @@ afterAll(async () => {
 
 describe("DELETE /api/v1/items/:id", () => {
     describe("Removing items", () => {
-        test("204 and record is removed from the database (hard delete)", async () => {
-            const id = await createItem();
+        test("Record is removed from the database: 204", async () => {
+            const itemId = await createItem();
 
-            const response = await fetch(`${BASE_URL}/api/v1/items/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/v1/items/${itemId}`, {
                 method: "DELETE",
             });
             expect(response.status).toBe(204);
 
-            const check = await database.query({
+            const checkQueryResult = await database.query({
                 text: "SELECT 1 FROM items WHERE id = $1",
-                values: [id],
+                values: [itemId],
             });
-            expect(check.rows.length).toBe(0);
+            expect(checkQueryResult.rows.length).toBe(0);
         });
 
-        test("delete twice: second returns 404", async () => {
-            const id = await createItem();
+        test("delete twice: 404", async () => {
+            const itemId = await createItem();
 
-            const first = await fetch(`${BASE_URL}/api/v1/items/${id}`, {
-                method: "DELETE",
-            });
-            expect(first.status).toBe(204);
+            const firstRequestResult = await fetch(
+                `${BASE_URL}/api/v1/items/${itemId}`,
+                {
+                    method: "DELETE",
+                },
+            );
+            expect(firstRequestResult.status).toBe(204);
 
-            const second = await fetch(`${BASE_URL}/api/v1/items/${id}`, {
-                method: "DELETE",
-            });
-            expect(second.status).toBe(404);
+            const secondRequestResult = await fetch(
+                `${BASE_URL}/api/v1/items/${itemId}`,
+                {
+                    method: "DELETE",
+                },
+            );
+            expect(secondRequestResult.status).toBe(404);
         });
 
         test("non-existent UUID: 404", async () => {
-            const nonexistent = crypto.randomUUID();
+            const nonExistentId = crypto.randomUUID();
             const response = await fetch(
-                `${BASE_URL}/api/v1/items/${nonexistent}`,
+                `${BASE_URL}/api/v1/items/${nonExistentId}`,
                 {
                     method: "DELETE",
                 },
@@ -79,7 +84,7 @@ describe("DELETE /api/v1/items/:id", () => {
             expect(response.status).toBe(404);
         });
 
-        test("invalid id (non UUID type): 404", async () => {
+        test("invalid id (non UUID type): 400", async () => {
             const invalidUUID = `13`;
             const response = await fetch(
                 `${BASE_URL}/api/v1/items/${invalidUUID}`,
