@@ -1,4 +1,4 @@
-//This file have to wait the DB to be ready to acept connections.
+//This file have to wait the DB to be ready to accept connections.
 const { exec } = require("node:child_process");
 
 function checkPostgres() {
