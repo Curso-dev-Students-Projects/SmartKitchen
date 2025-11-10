@@ -147,8 +147,10 @@ async function list() {
                     category_id,
                     created_at,
                     updated_at
-                FROM items
-                ORDER BY created_at DESC;
+                FROM 
+                    items
+                ORDER BY 
+                    created_at DESC;
             `,
         };
 
