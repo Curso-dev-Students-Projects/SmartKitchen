@@ -1,10 +1,12 @@
 {
-    "name": "clone-tabnews",
+    "name": "smart-kitchen",
     "version": "1.0.0",
-    "description": "Criação do nationnews.com.br!",
+    "description": "Criação do smart-kitchen!",
     "main": "index.js",
     "scripts": {
         "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
+        "vercel-build": "npm run vercel-migrations:up && next build",
+        "vercel-migrations:up": "node-pg-migrate -m infra/migrations up",
         "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand --verbose\"",
         "posttest": "npm run services:stop",
         "test:watch": "jest --watchAll --runInBand --verbose",
