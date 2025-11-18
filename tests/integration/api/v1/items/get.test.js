@@ -30,7 +30,7 @@ describe("GET /api/v1/items", () => {
                 quantity: 6,
                 unit: "l",
                 expiration_date: "2025-10-15T00:00:00.000Z",
-                category_id: "550e8400-e29b-41d4-a716-446655440001",
+                category: "550e8400-e29b-41d4-a716-446655440001",
             };
 
             const secondItemData = {
@@ -38,7 +38,7 @@ describe("GET /api/v1/items", () => {
                 quantity: 500,
                 unit: "g",
                 expiration_date: "2025-09-30T00:00:00.000Z",
-                category_id: "550e8400-e29b-41d4-a716-446655440003",
+                category: "550e8400-e29b-41d4-a716-446655440003",
             };
 
             // Criar os itens
