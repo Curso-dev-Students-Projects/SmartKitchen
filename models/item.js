@@ -15,7 +15,7 @@ async function create(itemData) {
             validatedItemData.quantity,
             validatedItemData.unit,
             validatedItemData.expiration_date || null,
-            validatedItemData.category || null,
+            validatedItemData.category,
         ],
     };
 
@@ -121,8 +121,6 @@ function validateItemData(data) {
                 message: '"category" must be a String.',
             });
         }
-
-        validateUUID("category", data.category);
     }
 
     return {
