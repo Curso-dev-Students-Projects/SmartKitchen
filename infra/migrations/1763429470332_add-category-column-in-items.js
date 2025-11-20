@@ -1,5 +1,3 @@
-exports.shorthands = {};
-
 exports.up = (pgm) => {
     pgm.createType(
         "item_category_enum",
@@ -32,15 +30,4 @@ exports.up = (pgm) => {
     pgm.alterColumn("items", "category", { default: null });
 };
 
-exports.down = (pgm) => {
-    pgm.addColumn("items", {
-        category_id: {
-            type: "uuid",
-            notNull: false,
-        },
-    });
-
-    pgm.dropColumn("items", "category");
-
-    pgm.dropType("item_category_enum");
-};
+exports.down = false;
