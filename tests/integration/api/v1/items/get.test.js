@@ -30,7 +30,7 @@ describe("GET /api/v1/items", () => {
                 quantity: 6,
                 unit: "l",
                 expiration_date: "2025-10-15T00:00:00.000Z",
-                category_id: "550e8400-e29b-41d4-a716-446655440001",
+                category: "Laticínios",
             };
 
             const secondItemData = {
@@ -38,7 +38,7 @@ describe("GET /api/v1/items", () => {
                 quantity: 500,
                 unit: "g",
                 expiration_date: "2025-09-30T00:00:00.000Z",
-                category_id: "550e8400-e29b-41d4-a716-446655440003",
+                category: "Legumes e Verduras",
             };
 
             // Criar os itens
@@ -79,7 +79,7 @@ describe("GET /api/v1/items", () => {
             expect(firstReturnedItem).toHaveProperty("quantity");
             expect(firstReturnedItem).toHaveProperty("unit");
             expect(firstReturnedItem).toHaveProperty("expiration_date");
-            expect(firstReturnedItem).toHaveProperty("category_id");
+            expect(firstReturnedItem).toHaveProperty("category");
             expect(firstReturnedItem).toHaveProperty("created_at");
 
             // Verificar tipos dos campos
@@ -87,6 +87,7 @@ describe("GET /api/v1/items", () => {
             expect(typeof firstReturnedItem.name).toBe("string");
             expect(typeof firstReturnedItem.quantity).toBe("number");
             expect(typeof firstReturnedItem.unit).toBe("string");
+            expect(typeof firstReturnedItem.category).toBe("string");
             expect(typeof firstReturnedItem.created_at).toBe("string");
         });
 
@@ -100,6 +101,7 @@ describe("GET /api/v1/items", () => {
                 name: "Primeiro Item",
                 quantity: 1,
                 unit: "unidade",
+                category: "Laticínios",
             };
 
             await fetch(`http://localhost:3000/api/v1/items`, {
@@ -115,6 +117,7 @@ describe("GET /api/v1/items", () => {
                 name: "Segundo Item",
                 quantity: 2,
                 unit: "unidade",
+                category: "Legumes e Verduras",
             };
 
             await fetch(`http://localhost:3000/api/v1/items`, {
