@@ -28,7 +28,7 @@ describe("GET /api/v1/items", () => {
             const firstItemData = {
                 name: "Leite Integral UHT",
                 quantity: 6,
-                unit: "l",
+                unit: "litros",
                 expiration_date: "2025-10-15T00:00:00.000Z",
                 category_id: "550e8400-e29b-41d4-a716-446655440001",
             };
@@ -36,7 +36,7 @@ describe("GET /api/v1/items", () => {
             const secondItemData = {
                 name: "Tomate Italiano",
                 quantity: 500,
-                unit: "g",
+                unit: "gramas",
                 expiration_date: "2025-09-30T00:00:00.000Z",
                 category_id: "550e8400-e29b-41d4-a716-446655440003",
             };
@@ -99,7 +99,7 @@ describe("GET /api/v1/items", () => {
             const firstItemData = {
                 name: "Primeiro Item",
                 quantity: 1,
-                unit: "unidade",
+                unit: "unidades",
             };
 
             await fetch(`http://localhost:3000/api/v1/items`, {
@@ -114,7 +114,7 @@ describe("GET /api/v1/items", () => {
             const secondItemData = {
                 name: "Segundo Item",
                 quantity: 2,
-                unit: "unidade",
+                unit: "unidades",
             };
 
             await fetch(`http://localhost:3000/api/v1/items`, {

@@ -8,7 +8,7 @@ const BASE_URL = "http://localhost:3000";
 async function createItem(itemData = {}) {
     const name = itemData.name ?? "Tmp";
     const quantity = itemData.quantity ?? 1;
-    const unit = itemData.unit ?? "Un";
+    const unit = itemData.unit ?? "unidades";
     const expiration = itemData.expiration_date ?? null;
     const category = itemData.category_id ?? null;
 
