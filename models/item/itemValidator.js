@@ -1,26 +1,18 @@
-import database from "infra/database.js";
-import { NotFoundError, ValidationError, ServiceError } from "infra/errors.js";
+import itemRepository from "./itemRepository.js";
+import { ValidationError } from "infra/errors.js";
 
 async function create(itemData) {
-    const validatedItemData = validateItemData(itemData);
+    const validatedData = validateItemData(itemData);
+    return await itemRepository.create(validatedData);
+}
 
-    const query = {
-        text: `
-            INSERT INTO items (name, quantity, unit, expiration_date, category_id)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *;
-        `,
-        values: [
-            validatedItemData.name,
-            validatedItemData.quantity,
-            validatedItemData.unit,
-            validatedItemData.expiration_date || null,
-            validatedItemData.category_id || null,
-        ],
-    };
+async function list() {
+    return await itemRepository.list();
+}
 
-    const result = await database.query(query);
-    return result.rows[0];
+async function remove(requestQuery) {
+    const validatedId = validateUUID("id", requestQuery.id);
+    return await itemRepository.remove(validatedId);
 }
 
 function validateItemData(data) {
@@ -134,57 +126,6 @@ function validateItemData(data) {
     };
 }
 
-async function list() {
-    try {
-        const query = {
-            text: `
-                SELECT 
-                    id,
-                    name,
-                    quantity,
-                    unit,
-                    expiration_date,
-                    category_id,
-                    created_at,
-                    updated_at
-                FROM 
-                    items
-                ORDER BY 
-                    created_at DESC;
-            `,
-        };
-
-        const result = await database.query(query);
-        return result.rows;
-    } catch (error) {
-        throw new ServiceError({
-            message: "Erro ao buscar lista de itens.",
-            cause: error,
-        });
-    }
-}
-
-async function remove(requestQuery) {
-    const validatedId = validateUUID(":id", requestQuery.id);
-
-    const query = {
-        text: `DELETE
-               FROM items
-               WHERE id = $1`,
-        values: [validatedId],
-    };
-
-    const result = await database.query(query);
-
-    if (result.rowCount === 0) {
-        throw new NotFoundError({
-            message: `Item with id ${result.rowCount} not found`,
-        });
-    }
-
-    return true;
-}
-
 function validateUUID(atributeName, id) {
     const uuidRegex =
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -199,10 +140,10 @@ function validateUUID(atributeName, id) {
     return id;
 }
 
-const item = {
+const itemValidator = {
     create,
     remove,
     list,
 };
 
-export default item;
+export default itemValidator;
