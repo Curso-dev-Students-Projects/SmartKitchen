@@ -10,14 +10,14 @@ async function createItem(itemData = {}) {
     const quantity = itemData.quantity ?? 1;
     const unit = itemData.unit ?? "Un";
     const expiration = itemData.expiration_date ?? null;
-    const category = itemData.category_id ?? null;
+    const category = itemData.category ?? "Outros";
 
     const { rows } = await database.query({
         text: `
-        INSERT INTO items (name, quantity, unit, expiration_date, category_id)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING id
-    `,
+            INSERT INTO items (name, quantity, unit, expiration_date, category)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id
+        `,
         values: [name, quantity, unit, expiration, category],
     });
 
@@ -27,9 +27,7 @@ async function createItem(itemData = {}) {
 beforeAll(async () => {
     await orchestrator.waitForAllServices();
     await orchestrator.clearDatabase();
-
-    const { execSync } = await import("node:child_process");
-    execSync("npm run migrations:up", { stdio: "inherit" });
+    await orchestrator.runPendingMigrations();
 }, 120000);
 
 afterAll(async () => {
@@ -44,6 +42,7 @@ describe("DELETE /api/v1/items/:id", () => {
             const response = await fetch(`${BASE_URL}/api/v1/items/${itemId}`, {
                 method: "DELETE",
             });
+
             expect(response.status).toBe(204);
 
             const checkQueryResult = await database.query({
@@ -85,7 +84,7 @@ describe("DELETE /api/v1/items/:id", () => {
         });
 
         test("invalid id (non UUID type): 400", async () => {
-            const invalidUUID = `13`;
+            const invalidUUID = "13";
             const response = await fetch(
                 `${BASE_URL}/api/v1/items/${invalidUUID}`,
                 {

@@ -6,7 +6,7 @@ async function create(itemData) {
 
     const query = {
         text: `
-            INSERT INTO items (name, quantity, unit, expiration_date, category_id)
+            INSERT INTO items (name, quantity, unit, expiration_date, category)
             VALUES ($1, $2, $3, $4, $5)
             RETURNING *;
         `,
@@ -15,7 +15,7 @@ async function create(itemData) {
             validatedItemData.quantity,
             validatedItemData.unit,
             validatedItemData.expiration_date || null,
-            validatedItemData.category_id || null,
+            validatedItemData.category,
         ],
     };
 
@@ -115,14 +115,12 @@ function validateItemData(data) {
         }
     }
 
-    if (data.category_id !== undefined && data.category_id !== null) {
-        if (typeof data.category_id !== "string") {
+    if (data.category !== undefined && data.category !== null) {
+        if (typeof data.category !== "string") {
             throw new ValidationError({
-                message: '"category_id" must be a String.',
+                message: '"category" must be a String.',
             });
         }
-
-        validateUUID("category_id", data.category_id);
     }
 
     return {
@@ -130,7 +128,7 @@ function validateItemData(data) {
         quantity: data.quantity,
         unit: trimmedUnit,
         expiration_date: data.expiration_date || null,
-        category_id: data.category_id || null,
+        category: data.category || null,
     };
 }
 
@@ -144,7 +142,7 @@ async function list() {
                     quantity,
                     unit,
                     expiration_date,
-                    category_id,
+                    category,
                     created_at,
                     updated_at
                 FROM 
