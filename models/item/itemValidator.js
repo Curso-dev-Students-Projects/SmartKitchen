@@ -1,26 +1,18 @@
-import database from "infra/database.js";
-import { NotFoundError, ValidationError, ServiceError } from "infra/errors.js";
+import itemRepository from "./itemRepository.js";
+import { ValidationError } from "infra/errors.js";
 
 async function create(itemData) {
-    const validatedItemData = validateItemData(itemData);
+    const validatedData = validateItemData(itemData);
+    return await itemRepository.create(validatedData);
+}
 
-    const query = {
-        text: `
-            INSERT INTO items (name, quantity, unit, expiration_date, category)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *;
-        `,
-        values: [
-            validatedItemData.name,
-            validatedItemData.quantity,
-            validatedItemData.unit,
-            validatedItemData.expiration_date || null,
-            validatedItemData.category,
-        ],
-    };
+async function list() {
+    return await itemRepository.list();
+}
 
-    const result = await database.query(query);
-    return result.rows[0];
+async function remove(requestQuery) {
+    const validatedId = validateUUID("id", requestQuery.id);
+    return await itemRepository.remove(validatedId);
 }
 
 function validateItemData(data) {
@@ -115,12 +107,14 @@ function validateItemData(data) {
         }
     }
 
-    if (data.category !== undefined && data.category !== null) {
-        if (typeof data.category !== "string") {
+    if (data.category_id !== undefined && data.category_id !== null) {
+        if (typeof data.category_id !== "string") {
             throw new ValidationError({
-                message: '"category" must be a String.',
+                message: '"category_id" must be a String.',
             });
         }
+
+        validateUUID("category_id", data.category_id);
     }
 
     return {
@@ -128,59 +122,8 @@ function validateItemData(data) {
         quantity: data.quantity,
         unit: trimmedUnit,
         expiration_date: data.expiration_date || null,
-        category: data.category || null,
+        category_id: data.category_id || null,
     };
-}
-
-async function list() {
-    try {
-        const query = {
-            text: `
-                SELECT 
-                    id,
-                    name,
-                    quantity,
-                    unit,
-                    expiration_date,
-                    category,
-                    created_at,
-                    updated_at
-                FROM 
-                    items
-                ORDER BY 
-                    created_at DESC;
-            `,
-        };
-
-        const result = await database.query(query);
-        return result.rows;
-    } catch (error) {
-        throw new ServiceError({
-            message: "Erro ao buscar lista de itens.",
-            cause: error,
-        });
-    }
-}
-
-async function remove(requestQuery) {
-    const validatedId = validateUUID(":id", requestQuery.id);
-
-    const query = {
-        text: `DELETE
-               FROM items
-               WHERE id = $1`,
-        values: [validatedId],
-    };
-
-    const result = await database.query(query);
-
-    if (result.rowCount === 0) {
-        throw new NotFoundError({
-            message: `Item with id ${result.rowCount} not found`,
-        });
-    }
-
-    return true;
 }
 
 function validateUUID(atributeName, id) {
@@ -197,10 +140,10 @@ function validateUUID(atributeName, id) {
     return id;
 }
 
-const item = {
+const itemValidator = {
     create,
     remove,
     list,
 };
 
-export default item;
+export default itemValidator;
