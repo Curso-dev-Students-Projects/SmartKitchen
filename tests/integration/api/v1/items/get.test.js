@@ -28,35 +28,35 @@ describe("GET /api/v1/items", () => {
             const firstItemData = {
                 name: "Leite Integral UHT",
                 quantity: 6,
-                unit: "l",
-                expiration_date: "2025-10-15T00:00:00.000Z",
+                unit: "litros",
+                expiration_date: "2025-10-15",
                 category: "Laticínios",
             };
 
             const secondItemData = {
                 name: "Tomate Italiano",
                 quantity: 500,
-                unit: "g",
-                expiration_date: "2025-09-30T00:00:00.000Z",
+                unit: "gramas",
+                expiration_date: "2025-09-30",
                 category: "Legumes e Verduras",
             };
 
             // Criar os itens
-            await fetch(`http://localhost:3000/api/v1/items`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(firstItemData),
-            });
+            await orchestrator.createItem(
+                firstItemData.name,
+                firstItemData.quantity,
+                firstItemData.unit,
+                firstItemData.expiration_date,
+                firstItemData.category,
+            );
 
-            await fetch(`http://localhost:3000/api/v1/items`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(secondItemData),
-            });
+            await orchestrator.createItem(
+                secondItemData.name,
+                secondItemData.quantity,
+                secondItemData.unit,
+                secondItemData.expiration_date,
+                secondItemData.category,
+            );
 
             // Buscar todos os itens
             const response = await fetch(`http://localhost:3000/api/v1/items`, {

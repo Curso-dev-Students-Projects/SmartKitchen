@@ -29,9 +29,29 @@ async function runPendingMigrations() {
     await migrator.runPendingMigrations();
 }
 
+async function createItem(
+    name = "teste-item",
+    quantity = 1,
+    unit = "unidades",
+    expiration_date = "2025-01-01",
+    category = "Outros",
+) {
+    const { rows } = await database.query({
+        text: `
+            INSERT INTO items (name, quantity, unit, expiration_date, category)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id
+        `,
+        values: [name, quantity, unit, expiration_date, category],
+    });
+
+    return rows[0].id;
+}
+
 const orchestrator = {
     waitForAllServices,
     clearDatabase,
     runPendingMigrations,
+    createItem,
 };
 export default orchestrator;
