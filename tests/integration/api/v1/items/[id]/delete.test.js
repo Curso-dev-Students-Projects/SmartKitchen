@@ -5,25 +5,6 @@ import crypto from "node:crypto";
 
 const BASE_URL = "http://localhost:3000";
 
-async function createItem(itemData = {}) {
-    const name = itemData.name ?? "Tmp";
-    const quantity = itemData.quantity ?? 1;
-    const unit = itemData.unit ?? "Un";
-    const expiration = itemData.expiration_date ?? null;
-    const category = itemData.category ?? "Outros";
-
-    const { rows } = await database.query({
-        text: `
-            INSERT INTO items (name, quantity, unit, expiration_date, category)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id
-        `,
-        values: [name, quantity, unit, expiration, category],
-    });
-
-    return rows[0].id;
-}
-
 beforeAll(async () => {
     await orchestrator.waitForAllServices();
     await orchestrator.clearDatabase();
@@ -37,7 +18,7 @@ afterAll(async () => {
 describe("DELETE /api/v1/items/:id", () => {
     describe("Removing items", () => {
         test("Record is removed from the database: 204", async () => {
-            const itemId = await createItem();
+            const itemId = await orchestrator.createItem();
 
             const response = await fetch(`${BASE_URL}/api/v1/items/${itemId}`, {
                 method: "DELETE",
@@ -53,7 +34,7 @@ describe("DELETE /api/v1/items/:id", () => {
         });
 
         test("delete twice: 404", async () => {
-            const itemId = await createItem();
+            const itemId = await orchestrator.createItem();
 
             const firstRequestResult = await fetch(
                 `${BASE_URL}/api/v1/items/${itemId}`,
